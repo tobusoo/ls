@@ -95,8 +95,20 @@ char const* spermission(__mode_t mode)
 
 char* size_to_str(off_t size)
 {
-    // pass
-    return NULL;
+    char* str = malloc(11);
+    double temp;
+
+    if (size / 1024 == 0) {
+        size %= 1024;
+        sprintf(str, "%ldB", size);
+    } else if (size / (1024 * 1024) == 0) {
+        temp = (double)size / 1024;
+        sprintf(str, "%.1lfKiB", temp);
+    } else {
+        temp = (double)size / (1024 * 1024);
+        sprintf(str, "%.1lfMiB", temp);
+    }
+    return str;
 }
 
 void print_info(char* name, struct stat* stat, Option option)
@@ -114,9 +126,8 @@ void print_info(char* name, struct stat* stat, Option option)
     }
 
     if (option.size == 1) {
-        // char *str = size_to_str(stat->st_size);
-        // printf("%5.5s", str);
-        printf("%5ld ", stat->st_size);
+        char* str = size_to_str(stat->st_size);
+        printf("%9s ", str);
     }
 
     if (option.block == 1) {
@@ -143,7 +154,7 @@ void print_info(char* name, struct stat* stat, Option option)
         struct tm* tm = localtime(&stat->st_ctime);
         char buf[64];
         strftime(buf, 64, "%d %b %H:%M", tm);
-        printf("%s\t", buf);
+        printf("%s  ", buf);
     }
 
     printf("%s\n", name);
@@ -176,7 +187,7 @@ void dir_read(char* path, Option* option)
 
 int main(int argc, char* argv[])
 {
-    printf("   inode Permissions Links  Size Blocks   User    Group   Date "
+    printf("   inode Permissions Links      Size Blocks   User    Group   Date "
            "Modified Name\n");
     Option opt = {0};
     if (argc < 2) {
