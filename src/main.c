@@ -21,6 +21,78 @@ typedef struct option {
     unsigned int date : 1;
 } Option;
 
+char const* spermission(__mode_t mode)
+{
+    static char local_buff[16] = {0};
+    int i = 0;
+
+    // file type
+    if (S_ISDIR(mode)) {
+        local_buff[i] = 'd';
+    } else if (S_ISREG(mode)) {
+        local_buff[i] = '-';
+    } else if (S_ISCHR(mode)) {
+        local_buff[i] = 'c';
+    } else if (S_ISBLK(mode)) {
+        local_buff[i] = 'b';
+    } else if (S_ISFIFO(mode)) {
+        local_buff[i] = '?';
+    } else if (S_ISLNK(mode)) {
+        local_buff[i] = 'l';
+    } else
+        local_buff[i] = '?';
+    i++;
+
+    // user permissions
+    if ((mode & S_IRUSR) == S_IRUSR)
+        local_buff[i] = 'r';
+    else
+        local_buff[i] = '-';
+    i++;
+    if ((mode & S_IWUSR) == S_IWUSR)
+        local_buff[i] = 'w';
+    else
+        local_buff[i] = '-';
+    i++;
+    if ((mode & S_IXUSR) == S_IXUSR)
+        local_buff[i] = 'x';
+    else
+        local_buff[i] = '-';
+    i++;
+    // group permissions
+    if ((mode & S_IRGRP) == S_IRGRP)
+        local_buff[i] = 'r';
+    else
+        local_buff[i] = '-';
+    i++;
+    if ((mode & S_IWGRP) == S_IWGRP)
+        local_buff[i] = 'w';
+    else
+        local_buff[i] = '-';
+    i++;
+    if ((mode & S_IXGRP) == S_IXGRP)
+        local_buff[i] = 'x';
+    else
+        local_buff[i] = '-';
+    i++;
+    // other permissions
+    if ((mode & S_IROTH) == S_IROTH)
+        local_buff[i] = 'r';
+    else
+        local_buff[i] = '-';
+    i++;
+    if ((mode & S_IWOTH) == S_IWOTH)
+        local_buff[i] = 'w';
+    else
+        local_buff[i] = '-';
+    i++;
+    if ((mode & S_IXOTH) == S_IXOTH)
+        local_buff[i] = 'x';
+    else
+        local_buff[i] = '-';
+    return local_buff;
+}
+
 char* size_to_str(off_t size)
 {
     // pass
@@ -34,7 +106,7 @@ void print_info(char* name, struct stat* stat, Option option)
     }
 
     if (option.perm == 1) {
-        printf("%s  ", "permission"); // pass
+        printf("%s  ", spermission(stat->st_mode));
     }
 
     if (option.link == 1) {
