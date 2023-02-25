@@ -1,7 +1,7 @@
 #include "ls.h"
 #include <stdio.h>
 
-static void size_to_str(off_t size);
+static char* size_to_str(off_t size);
 
 char const* spermission(mode_t mode)
 {
