@@ -110,6 +110,7 @@ void print_info(char* name, struct stat* stat, Option option)
     if (option.size == 1) {
         char* str = size_to_str(stat->st_size);
         printf("%9s ", str);
+        free(str);
     }
 
     if (option.block == 1) {
