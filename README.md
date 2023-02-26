@@ -9,3 +9,4 @@ My implementation of the "ls" command
 
 ![](https://github.com/tobusoo/ls/blob/main/screenshots/Screenshot_4.png)
 
+![](https://github.com/tobusoo/ls/blob/main/screenshots/Screenshot_5.png)
