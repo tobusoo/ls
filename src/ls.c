@@ -95,7 +95,7 @@ char* size_to_str(off_t size)
     return str;
 }
 
-void print_info(char* name, struct stat* stat, Option option)
+void print_info(char* name, struct stat* stat, Arg option)
 {
     char* str = size_to_str(stat->st_size);
     struct passwd* pwd;
@@ -156,24 +156,34 @@ void print_info(char* name, struct stat* stat, Option option)
         printf("%s\n", name);
 }
 
-void dir_read(char* path, Option* option)
+void dir_read(Arg* option)
 {
-    DIR* dir = opendir(path);
+    DIR* dir = opendir(option->path);
     struct dirent* file;
     if (dir) {
         while ((file = readdir(dir)) != NULL) {
-            if (option->a == 0 && option->A == 0) {
+            if (option->A == 1) {
                 if (strcmp(file->d_name, ".") == 0
                     || strcmp(file->d_name, "..") == 0)
                     continue;
-                // if (file->d_name[0] == '.')
-                //     continue;
+            }
+
+            if (option->a == 0) {
+                if (file->d_name[0] == '.')
+                    continue;
             }
             struct stat* buf = malloc(sizeof(struct stat));
+            char path[256];
+            strncpy(path, option->path, 256);
             if (buf) {
-                stat(file->d_name, buf);
-                Option opt = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
-                print_info(file->d_name, buf, opt);
+                if (strcmp(option->path, ".") != 0
+                    && strcmp(option->path, "..") != 0) {
+                    strncat(path, "/", 2);
+                    strncat(path, file->d_name, 254);
+                    stat(path, buf);
+                } else
+                    stat(file->d_name, buf);
+                print_info(file->d_name, buf, *option);
                 free(buf);
             }
         }
