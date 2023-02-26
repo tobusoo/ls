@@ -8,9 +8,17 @@ char doc[] = "documentation...";
 const char* argp_program_bug_address = "<chppppr@yandex.ru>";
 char args_doc[] = "[PATH]";
 struct argp_option options[] = {
-        {0, 'a', 0, 0, "Show hidden files"},
-        {0, 'A', 0, 0, "Don't show . and .."},
-        {0, 'l', 0, 0, "Use a long listing format"},
+        {"all", 'a', 0, 0, "Show hidden files"},
+        {0, 'A', 0, 0, "Don't show . and .. directories"},
+        {"long", 'l', 0, 0, "Use a long listing format"},
+        {"group", 'g', 0, 0, "list each file's group"},
+        {"inode", 'i', 0, 0, "list each file's inode number"},
+        {"bloks", 'B', 0, 0, "list each file's number of file system blocks"},
+        {"size", 's', 0, 0, "list each file's size"},
+        {"date", 'd', 0, 0, "list each file's modified date"},
+        {"permission", 'p', 0, 0, "list each file's permission"},
+        {"user", 'u', 0, 0, "list each file's user"},
+        {"full", 'f', 0, 0, "show full information"},
         {0},
 };
 

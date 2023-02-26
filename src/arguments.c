@@ -14,13 +14,52 @@ error_t parse_opt(int key, char* arg, struct argp_state* state)
         arguments->A = 1;
         break;
 
+    case 'f':
+        arguments->perm = 1;
+        arguments->link = 1;
+        arguments->user = 1;
+        arguments->group = 1;
+        arguments->size = 1;
+        arguments->date = 1;
+        arguments->block = 1;
+        arguments->inode = 1;
+        break;
+
     case 'l':
         arguments->perm = 1;
         arguments->link = 1;
         arguments->user = 1;
-        arguments->user = 1;
+        arguments->group = 1;
         arguments->size = 1;
         arguments->date = 1;
+        break;
+
+    case 'B':
+        arguments->block = 1;
+        break;
+
+    case 'd':
+        arguments->date = 1;
+        break;
+
+    case 'g':
+        arguments->group = 1;
+        break;
+
+    case 'i':
+        arguments->inode = 1;
+        break;
+
+    case 'p':
+        arguments->perm = 1;
+        break;
+
+    case 's':
+        arguments->size = 1;
+        break;
+
+    case 'u':
+        arguments->user = 1;
         break;
 
     case ARGP_KEY_ARG:
