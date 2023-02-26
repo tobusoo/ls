@@ -85,11 +85,11 @@ char* size_to_str(off_t size)
 
     if (size / 1000 == 0) {
         sprintf(str, "%ld", size);
-    } else if (size / (1024 * 1024) == 0) {
-        temp = (double)size / 1024;
+    } else if (size / (1000 * 1000) == 0) {
+        temp = (double)size / 1000;
         sprintf(str, "%.1lfK", temp);
     } else {
-        temp = (double)size / (1024 * 1024);
+        temp = (double)size / (1000 * 1000);
         sprintf(str, "%.1lfM", temp);
     }
     return str;
@@ -163,9 +163,9 @@ void dir_read(char* path, Option* option)
     if (dir) {
         while ((file = readdir(dir)) != NULL) {
             if (option->a == 0 && option->A == 0) {
-                // if (strcmp(file->d_name, ".") == 0
-                //     || strcmp(file->d_name, "..") == 0)
-                //     continue;
+                if (strcmp(file->d_name, ".") == 0
+                    || strcmp(file->d_name, "..") == 0)
+                    continue;
                 // if (file->d_name[0] == '.')
                 //     continue;
             }
