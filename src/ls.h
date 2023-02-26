@@ -10,5 +10,5 @@
 #include <time.h>
 
 void print_info(char* name, struct stat* stat, Arg option);
-void dir_read(char* path, Arg* option);
+void dir_read(Arg* option);
 char const* spermission(mode_t mode);

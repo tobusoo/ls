@@ -8,8 +8,9 @@ char doc[] = "documentation...";
 const char* argp_program_bug_address = "<chppppr@yandex.ru>";
 char args_doc[] = "[PATH]";
 struct argp_option options[] = {
-        {"idk", 'a', 0, 0, "Show hidden files"},
-        {"idk2", 'A', 0, 0, "Don't show . and .."},
+        {0, 'a', 0, 0, "Show hidden files"},
+        {0, 'A', 0, 0, "Don't show . and .."},
+        {0, 'l', 0, 0, "Use a long listing format"},
         {0},
 };
 
@@ -17,12 +18,6 @@ static struct argp argp = {options, parse_opt, args_doc, doc};
 
 int main(int argc, char* argv[])
 {
-    // printf("   " UNDSCORE("inode") " " UNDSCORE("Permission") "  ");
-    // printf(UNDSCORE("Links") "       " UNDSCORE("Size") " ");
-    // printf(UNDSCORE("Blocks") "   " UNDSCORE("User") "    ");
-    // printf(UNDSCORE("Group") "   " UNDSCORE("Date Modified") " ");
-    // printf(UNDSCORE("Name") "\n");
-
     Arg arguments;
     // set default settings
     arguments.path = ".";
@@ -39,20 +34,7 @@ int main(int argc, char* argv[])
 
     argp_parse(&argp, argc, argv, 0, 0, &arguments);
 
-    dir_read(".", &arguments);
-
-    printf("\n");
-    printf("path: %s\n", arguments.path);
-    printf("a: %s\n", arguments.a ? "yes" : "no");
-    printf("A: %s\n", arguments.A ? "yes" : "no");
-    printf("inode: %s\t", arguments.inode ? "yes" : "no");
-    printf("link: %s\t", arguments.link ? "yes" : "no");
-    printf("block: %s\t", arguments.block ? "yes" : "no");
-    printf("user: %s\t", arguments.user ? "yes" : "no");
-    printf("group: %s\t", arguments.group ? "yes" : "no");
-    printf("perm: %s\t", arguments.perm ? "yes" : "no");
-    printf("size: %s\t", arguments.size ? "yes" : "no");
-    printf("data: %s\n", arguments.date ? "yes" : "no");
+    dir_read(&arguments);
 
     return 0;
 }

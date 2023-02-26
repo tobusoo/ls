@@ -156,9 +156,9 @@ void print_info(char* name, struct stat* stat, Arg option)
         printf("%s\n", name);
 }
 
-void dir_read(char* path, Arg* option)
+void dir_read(Arg* option)
 {
-    DIR* dir = opendir(path);
+    DIR* dir = opendir(option->path);
     struct dirent* file;
     if (dir) {
         while ((file = readdir(dir)) != NULL) {
@@ -172,10 +172,17 @@ void dir_read(char* path, Arg* option)
                 if (file->d_name[0] == '.')
                     continue;
             }
-
             struct stat* buf = malloc(sizeof(struct stat));
+            char path[256];
+            strncpy(path, option->path, 256);
             if (buf) {
-                stat(file->d_name, buf);
+                if (strcmp(option->path, ".") != 0
+                    && strcmp(option->path, "..") != 0) {
+                    strncat(path, "/", 2);
+                    strncat(path, file->d_name, 254);
+                    stat(path, buf);
+                } else
+                    stat(file->d_name, buf);
                 print_info(file->d_name, buf, *option);
                 free(buf);
             }

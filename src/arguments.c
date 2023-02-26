@@ -12,6 +12,16 @@ error_t parse_opt(int key, char* arg, struct argp_state* state)
 
     case 'A':
         arguments->A = 1;
+        break;
+
+    case 'l':
+        arguments->perm = 1;
+        arguments->link = 1;
+        arguments->user = 1;
+        arguments->user = 1;
+        arguments->size = 1;
+        arguments->date = 1;
+        break;
 
     case ARGP_KEY_ARG:
         if (state->arg_num >= 1) {
