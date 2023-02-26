@@ -15,6 +15,7 @@ error_t parse_opt(int key, char* arg, struct argp_state* state)
         break;
 
     case 'f':
+        arguments->a = 1;
         arguments->perm = 1;
         arguments->link = 1;
         arguments->user = 1;
